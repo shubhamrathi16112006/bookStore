@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book — BookStore</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f4f8;
+            min-height: 100vh;
+            color: #1a202c;
+        }
+        nav {
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 32px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand { font-size: 20px; font-weight: 700; color: #1a202c; text-decoration: none; }
+        .btn-back {
+            padding: 7px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            background: transparent;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+        .btn-back:hover { background: #f7fafc; }
+        .page-wrapper { max-width: 520px; margin: 48px auto; padding: 0 24px; }
+        .page-title { font-size: 22px; font-weight: 700; margin-bottom: 24px; color: #1a202c; }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 36px 32px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+        }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 6px; }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #1a202c;
+            background: #f7fafc;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        input:focus {
+            border-color: #667eea;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+        }
+        .file-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 14px;
+            border: 1.5px dashed #cbd5e0;
+            border-radius: 8px;
+            background: #f7fafc;
+            cursor: pointer;
+            font-size: 14px;
+            color: #718096;
+            transition: border-color 0.2s;
+        }
+        .file-label:hover { border-color: #667eea; color: #667eea; }
+        .file-label input[type="file"] { display: none; }
+        #file-name-display { font-size: 13px; color: #667eea; margin-top: 6px; }
+        .form-actions { display: flex; gap: 12px; margin-top: 8px; }
+        .btn-primary {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .btn-primary:hover { opacity: 0.92; }
+        .btn-primary:active { transform: scale(0.99); }
+        .btn-cancel {
+            padding: 12px 20px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #4a5568;
+            background: transparent;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background 0.15s;
+        }
+        .btn-cancel:hover { background: #f7fafc; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a class="nav-brand" href="/">📚 BookStore</a>
+        <a href="/" class="btn-back">← Back</a>
+    </nav>
+
+    <div class="page-wrapper">
+        <h2 class="page-title">Add a New Book</h2>
+
+        <div class="card">
+            <form action="/add" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Book Title</label>
+                    <input type="text" id="title" name="title" placeholder="e.g. The Great Gatsby" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author" placeholder="e.g. F. Scott Fitzgerald" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input type="text" id="genre" name="genre" placeholder="e.g. Fiction, Sci-Fi, Mystery">
+                </div>
+
+                <div class="form-group">
+                    <label for="publishedYear">Published Year</label>
+                    <input type="number" id="publishedYear" name="publishedYear" placeholder="e.g. 1925">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price ($)</label>
+                    <input type="number" id="price" name="price" placeholder="e.g. 19.99" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label>Cover Photo</label>
+                    <label class="file-label" for="image">
+                        📷 Choose an image
+                        <input type="file" id="image" name="image" accept="image/*"
+                            onchange="document.getElementById('file-name-display').textContent = this.files[0]?.name || ''">
+                    </label>
+                    <div id="file-name-display"></div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/" class="btn-cancel">Cancel</a>
+                    <button type="submit" class="btn-primary">Add Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
